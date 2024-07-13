@@ -1,1 +1,3 @@
-FROM php:8.1-fpm-alpine
+FROM ghcr.io/devgine/composer-php:latest
+RUN apk add --no-cache postgresql-dev && \
+docker-php-ext-install pdo pdo_pgsql

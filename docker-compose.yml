@@ -10,9 +10,28 @@ services:
       - "8000:80"
     volumes:
       - ./src:/var/www/html
+    networks:
+      - backend  
+  database:
+    container_name: database
+    build: ./docker/postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: salemanagerDB
+    networks:
+      - backend         
   php:
     container_name: php
     build: ./docker/php
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
+    networks:
+      - backend
+    depends_on:
+      - database  
+networks:
+  backend:
+    driver: bridge
